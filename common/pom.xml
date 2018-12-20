@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ Notes
+  -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.arun</groupId>
+	<artifactId>Project_Common</artifactId>
+	<version>2019.1.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>Project Desc - Common</name>
+	<description>Common projects that are not deployed individually</description>
+	<modules>
+		<module>dependencies</module>
+		<module>model</module>
+		<module>general</module>
+		<module>starter2</module>
+	</modules>
+	<build>
+		<defaultGoal>clean install</defaultGoal>
+	</build>
+
+	<properties>
+		<!-- SONAR Code Quality Scan properties -->
+		<sonar.projectKey>com.arun:Project_Common</sonar.projectKey>
+		<sonar.projectName>Project_Common</sonar.projectName>
+		<sonar.modules>dependencies,general,model,starter</sonar.modules>
+		<sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
+		<sonar.exclusions>**/resources/**/*</sonar.exclusions>
+		<sonar.sources>src/main</sonar.sources>
+		<sonar.tests>src/test</sonar.tests>
+		<sonar.java.source>1.8</sonar.java.source>
+		<sonar.java.binaries>target/classes</sonar.java.binaries>
+		<sonar.junit.reportPaths>target/surefire-reports</sonar.junit.reportPaths>
+	</properties>
+
+</project>
+
+<!-- test comment -->

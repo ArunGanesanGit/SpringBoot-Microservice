@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.arun.test</groupId>
+    <artifactId>ProjectName_Dependencies</artifactId>
+    <version>2019.1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Project Desc - Dependencies</name>
+    <description>Bill Of Materials (BOM) project to contain dependency versions and properties, shared across Project
+        services
+    </description>
+
+    <properties>
+        <!--
+        ************
+        * Project specific Settings
+        ************ -->
+        <arun.integration.version>2019.1.0-SNAPSHOT</apex.integration.version>
+
+        <!--
+        ************
+        * Java, Maven, & Jenkins Settings
+        ************ -->
+        <java.version>1.8</java.version>
+        <resource.delimiter>@</resource.delimiter> <!-- delimiter that doesn't clash with Spring ${} placeholders -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <maven.compiler.version>3.2</maven.compiler.version>
+        <maven.surefire.version>2.6</maven.surefire.version>
+        <maven.dependency.version>2.8</maven.dependency.version>
+        <!-- Note: maven.build.timestamp is UTC in Maven 3.2.2+ (https://issues.apache.org/jira/browse/MNG-5452) -->
+        <build.timestamp>${maven.build.timestamp}</build.timestamp>
+        <maven.build.timestamp.format>yyyy-MM-dd HH:mm Z</maven.build.timestamp.format>
+
+        <!--
+        ************
+        * External Dependency Versions
+        ************ -->
+        <slf4j.version>1.7.25</slf4j.version>
+        <junit.version>4.12</junit.version>
+        <mockito.version>1.10.19</mockito.version>
+        <springfox.version>2.8.0</springfox.version> <!-- Swagger -->
+        <spring.boot.version>2.0.4.RELEASE</spring.boot.version>
+        <spring.cloud.version>2.0.1.RELEASE</spring.cloud.version>
+        <spring.cloud.stream.version>2.0.1.RELEASE</spring.cloud.stream.version>
+        <spring.feign.version>1.4.4.RELEASE</spring.feign.version>
+        <github.feign.version>9.5.1</github.feign.version>
+        <spring.sleuth.version>2.0.1.RELEASE</spring.sleuth.version>
+        <spring.zipkin.version>2.0.1.RELEASE</spring.zipkin.version>
+        <spring.datacommon.version>2.0.10.RELEASE</spring.datacommon.version>
+        <lombok.version>1.16.6</lombok.version>
+        <commons.lang.version>2.4</commons.lang.version>
+        <netflix.archaius.version>0.7.5</netflix.archaius.version>
+        <amazon.s3.version>1.11.336</amazon.s3.version>
+        <emc.ecs.version>3.0.6</emc.ecs.version>
+        <javax.validation.version>2.0.1.Final</javax.validation.version>
+        <sqlserver.jdbc.version>6.2.2.jre8</sqlserver.jdbc.version>
+        <guava.version>19.0</guava.version>
+
+        <!-- SONAR Code Quality Scan properties -->
+        <sonar.projectName>Arun_Common_Dependencies</sonar.projectName>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <!-- Arun Model & General -->
+            <dependency>
+                <groupId>com.arun.test</groupId>
+                <artifactId>Arun_Model</artifactId>
+                <version>${apex.integration.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.arun.tes</groupId>
+                <artifactId>Arun_General</artifactId>
+                <version>${apex.integration.version}</version>
+            </dependency>
+
+            <!-- Swagger -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${springfox.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${springfox.version}</version>
+                <scope>compile</scope>
+            </dependency>
+            <!--Workaround for upgraded Swagger version-Force newer Guava version
+            https://github.com/springfox/springfox/issues/2388
+             Remove after swagger 3.X upgrade-->
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
+            <!-- Spring Boot -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring.boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-commons</artifactId>
+                <version>${spring.datacommon.version}</version>
+                <optional>true</optional>
+            </dependency>
+
+            <!-- Validation -->
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>${javax.validation.version}</version>
+                <optional>true</optional>
+            </dependency>
+
+            <!-- Logging -->
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+
+            <!-- Lombok -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <optional>true</optional>
+            </dependency>
+
+            <dependency>
+                <groupId>commons-lang</groupId>
+                <artifactId>commons-lang</artifactId>
+                <version>${commons.lang.version}</version>
+                <optional>true</optional>
+            </dependency>
+
+            <!-- Testing -->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <!-- Spring Cloud -->
+            <dependency>
+                <groupId>io.pivotal.spring.cloud</groupId>
+                <artifactId>spring-cloud-services-starter-config-client</artifactId>
+                <version>${spring.cloud.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.pivotal.spring.cloud</groupId>
+                <artifactId>spring-cloud-services-starter-service-registry</artifactId>
+                <version>${spring.cloud.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.pivotal.spring.cloud</groupId>
+                <artifactId>spring-cloud-services-starter-circuit-breaker</artifactId>
+                <version>${spring.cloud.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-zipkin</artifactId>
+                <version>${spring.zipkin.version}</version>
+            </dependency>
+            
+            <dependency>
+            	<groupId>org.springframework.security.oauth</groupId>
+				<artifactId>spring-security-oauth2</artifactId>
+				<version>2.3.3.RELEASE</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.netflix.archaius</groupId>
+                <artifactId>archaius-core</artifactId>
+                <version>${netflix.archaius.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-feign</artifactId>
+                <version>${spring.feign.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-sleuth</artifactId>
+                <version>${spring.sleuth.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.amazonaws</groupId>
+                <artifactId>aws-java-sdk-s3</artifactId>
+                <version>${amazon.s3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.emc.ecs</groupId>
+                <artifactId>object-client</artifactId>
+                <version>${emc.ecs.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.pivotal.spring.cloud</groupId>
+                <artifactId>spring-cloud-services-cloudfoundry-connector</artifactId>
+                <version>${spring.cloud.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.pivotal.spring.cloud</groupId>
+                <artifactId>spring-cloud-services-spring-connector</artifactId>
+                <version>${spring.cloud.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>io.github.openfeign</groupId>
+                <artifactId>feign-core</artifactId>
+                <version>${github.feign.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-stream</artifactId>
+                <version>${spring.cloud.stream.version}</version>
+            </dependency>
+
+            <!-- SqlServer Database -->
+            <dependency>
+                <groupId>com.microsoft.sqlserver</groupId>
+                <artifactId>mssql-jdbc</artifactId>
+                <version>${sqlserver.jdbc.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+</project>

@@ -1,0 +1,82 @@
+spring:
+  application:
+    name: arun
+security:
+  filter-order: 5 # To execute URL rewrite filter before spring security filter
+  basic:
+    enabled: false
+
+vcap:
+  services:
+    arun-cups-service:
+      credentials:
+        expiryInMins: 10080
+
+arun:
+  maxAge:
+     nonCtf: 1209600
+  executor:
+     arun-store:
+        corePoolSize: 5
+        maxPoolSize: 20
+        keepAliveSeconds: 60
+        queueCapacity: 50
+        threadNamePrefix: arunStoreExecutor
+
+logging.reqRespFilter.includeUrls: /services/*
+
+# Disable Hystrix timeout globally (for all services)
+hystrix.command.default.execution.timeout.enabled: false
+
+# Increase the Hystrix timeout from 1s (Default) to 60s (globally)
+hystrix.command.default.execution.isolation.thread.timeoutInMilliseconds: 60000
+
+# Disable circuit breaker globally (for all services)-Legacy should function as a passthrough
+hystrix.command.default.circuitBreaker.enabled: false
+
+# Disable Hystrix fallback client globally (for all services)-Legacy should function as a passthrough
+hystrix.command.default.fallback.enabled: false
+
+# Increase the Netflix ribbon timeout from 1s (Default) to 10s (globally)
+ribbon:
+  ReadTimeout: 10000
+---
+
+spring:
+  profiles: default
+
+feign:
+  hystrix:
+    enabled: false
+  url:
+#    CN DEV
+#    terms:  https://arun-dev.apps.pcfepgw
+
+ribbon:
+  eager-load:
+    enabled: false
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+
+#Env Variables
+DEFAULT_LANGUAGE: en
+SWAGGER_ENABLED: true
+---
+
+spring:
+  profiles: cloud
+
+feign:
+  hystrix:
+    enabled: false
+
+ribbon:
+  eager-load:
+    enabled: true
+
+arun:
+  logging:
+    mode: db
+    req-resp: true
